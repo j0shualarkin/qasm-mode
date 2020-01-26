@@ -93,6 +93,17 @@
 
 ;; ------------------
 
+;; stolen from haskell-mode which stole from sml-mode
+;; this doesn't fix the issue tho...
+(defun qasm-comment-indent ()
+  "Compute indentation for Haskell comments"
+  (if (looking-at "^//")
+      0
+    (save-excursion
+      (skip-chars-backward " \t")
+      (max (1+ (current-column))
+	   comment-column))))
+
 (defun qasm-mode ()
   "Major mode for editing OPENQASM files"
   (interactive)
@@ -101,10 +112,19 @@
   (use-local-map qasm-mode-map)
   (set (make-local-variable 'font-lock-defaults)
        '(qasm-font-lock-keywords))
-  ;; (set (make-local-variable 'indent-line-function) 'qasm-indent-line)
-  
+
   (setq major-mode 'qasm-mode)
   (setq mode-name "QASM")
-  (run-hooks 'qasm-mode-hook))
+
+  (set (make-local-variable 'indent-line-function) 'qasm-indent-line)
+  (make-local-variable 'comment-start)
+  (setq comment-start "//")
+  (make-local-variable 'comment-end)
+  (setq comment-end "")
+  ;; (setq current-column 60) 
+  (setq comment-indent-function 'qasm-comment-indent)
+
+ (run-hooks 'qasm-mode-hook))
+
 
 (provide 'qasm-mode)
