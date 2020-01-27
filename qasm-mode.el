@@ -24,7 +24,9 @@
     (let ((template (concat "OPENQASM 2.0;\n"
 			    "include \"qelib1.inc\";\n\n"
 			    (format "qreg in[%d];\n" n)
-			    (format "creg out[%d];\n" n))))
+			    (format "creg out[%d];\n" n)
+			    "barrier in;\n"
+			    "measure in -> out;")))
       (insert template)))
 
 
@@ -94,7 +96,7 @@
 ;; ------------------
 
 ;; stolen from haskell-mode which stole from sml-mode
-;; this doesn't fix the issue tho...
+;; this doesn't do anything tho
 (defun qasm-comment-indent ()
   "Compute indentation for Haskell comments"
   (if (looking-at "^//")
@@ -121,10 +123,29 @@
   (setq comment-start "//")
   (make-local-variable 'comment-end)
   (setq comment-end "")
-  ;; (setq current-column 60) 
+  ;; (setq current-column 60) ;; what would 60 look like?
   (setq comment-indent-function 'qasm-comment-indent)
 
  (run-hooks 'qasm-mode-hook))
+
+
+ ;; (make-local-variable 'indent-line-function)
+ ;; (setq indent-line-function 'haskell-indent-line)
+ ;; (make-local-variable 'comment-start)
+ ;; (setq comment-start "-- ")
+ ;; (setq comment-start "{- ")
+ ;; (make-local-variable 'comment-end)
+ ;; (setq comment-end "")
+ ;; (setq comment-end " -}")
+ ;; (make-local-variable 'comment-column)
+ ;; (setq comment-column 60)		; Start of comment in this column
+ ;; (make-local-variable 'comment-start-skip)
+ ;; (setq comment-start-skip "{-+ *\\|--+ *") ; This matches a start of comment
+ ;; (make-local-variable 'comment-multi-line)
+ ;; (setq comment-multi-line nil)
+ ;; (make-local-variable 'comment-indent-function)
+ ;; (setq comment-indent-function 'haskell-comment-indent)
+
 
 
 (provide 'qasm-mode)
