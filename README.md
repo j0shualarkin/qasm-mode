@@ -1,6 +1,14 @@
 # qasm-mode
 Emacs Mode for OPENQASM
 
+# Set-Up
+Clone this repo wherever you like, just remember the path. 
+Add the following two lines to your emacs config file:
+```
+(add-to-list 'load-path "path/to/qasm-mode")
+(require 'qasm-mode)
+```
+
 # Features
 ```Ctrl+c Ctrl+o```
 This command generates a template. Open a blank .qasm file and enter the above command; you'll be prompted for a number.
