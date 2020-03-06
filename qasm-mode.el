@@ -13,8 +13,7 @@
 (defvar qasm-mode-hook
   (add-hook 'qasm-mode-hook
 	    (lambda ()
-	      (setq-local comment-start "//")
-	      (setq-local comment-end "\n"))))
+	      (setq comment-start "// "))))
 
 ;; ------------------
 
@@ -88,6 +87,7 @@
 
 (defconst qasm-mode-syntax-table
   (let ((table (make-syntax-table)))
+    ;(modify-syntax-entry ?/  ". 14b" table)
     (modify-syntax-entry ?/  ". 12b" table)
     (modify-syntax-entry ?\n "> b"   table)
     table)
@@ -95,16 +95,6 @@
 
 ;; ------------------
 
-;; stolen from haskell-mode which stole from sml-mode
-;; this doesn't do anything tho
-(defun qasm-comment-indent ()
-  "Compute indentation for Haskell comments"
-  (if (looking-at "^//")
-      0
-    (save-excursion
-      (skip-chars-backward " \t")
-      (max (1+ (current-column))
-	   comment-column))))
 
 (defun qasm-mode ()
   "Major mode for editing OPENQASM files"
@@ -118,34 +108,8 @@
   (setq major-mode 'qasm-mode)
   (setq mode-name "QASM")
 
-  (set (make-local-variable 'indent-line-function) 'qasm-indent-line)
-  (make-local-variable 'comment-start)
-  (setq comment-start "//")
-  (make-local-variable 'comment-end)
-  (setq comment-end "")
-  ;; (setq current-column 60) ;; what would 60 look like?
-  (setq comment-indent-function 'qasm-comment-indent)
-
- (run-hooks 'qasm-mode-hook))
-
-
- ;; (make-local-variable 'indent-line-function)
- ;; (setq indent-line-function 'haskell-indent-line)
- ;; (make-local-variable 'comment-start)
- ;; (setq comment-start "-- ")
- ;; (setq comment-start "{- ")
- ;; (make-local-variable 'comment-end)
- ;; (setq comment-end "")
- ;; (setq comment-end " -}")
- ;; (make-local-variable 'comment-column)
- ;; (setq comment-column 60)		; Start of comment in this column
- ;; (make-local-variable 'comment-start-skip)
- ;; (setq comment-start-skip "{-+ *\\|--+ *") ; This matches a start of comment
- ;; (make-local-variable 'comment-multi-line)
- ;; (setq comment-multi-line nil)
- ;; (make-local-variable 'comment-indent-function)
- ;; (setq comment-indent-function 'haskell-comment-indent)
-
+  (run-hooks 'qasm-mode-hook)
+  )
 
 
 (provide 'qasm-mode)
