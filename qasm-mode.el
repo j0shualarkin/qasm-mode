@@ -69,18 +69,27 @@
 		 font-lock-keyword-face)))
   "qasm keywords are OPENQASM and include")
 
+(defun my-whitespacer (ls)
+  (mapcan (lambda (x)
+	    (list (concat x " ")
+		  (concat " " x " ")
+		  (concat "\n" x " ")
+		  (concat "\t" x " ")
+		  (concat "\r" x " ")))
+	  ls))
+
 (defconst qasm-font-lock-keywords-3
   (append qasm-font-lock-keywords-2
 	  (list
-	   (cons (regexp-opt '("u" "x" "cx" "ccx"
-			       "U" "x" "CX" "CCX"))
-		 font-lock-function-name-face)))
+	   (cons
+	    (let ((strs '("u" "x" "cx" "ccx" "h" "H" "U" "CX" "CCX")))
+	      (regexp-opt (my-whitespacer strs)))
+	    font-lock-function-name-face)))
   "have the built-in gates as functions")
-
-	    
 
 (defvar qasm-font-lock-keywords
   qasm-font-lock-keywords-3
+  ;; use 3 when the right reg-exp is writen
   "Default syntax highlighting for qasm-mode")
 
 ;; ------------------
